@@ -1,8 +1,10 @@
 import ast
 
+#TODO: arruamr bug que imprime __dormir duas vezes
+
 
 def imprime_relatorio(lista_duplicatas):
-    while dup_list:
+    while lista_duplicatas:
         first = lista_duplicatas.pop()
         print("Metodo " + first.nome + " repetido nas classes: ")
         print("\t" + first.classe)
@@ -45,7 +47,7 @@ def percorre_arvore(arvore_gerada, lista_metodos_classes):
                         lista_metodos_classes.append(c)
 
 
-class InfoMetodo():
+class InfoMetodo:
     nome = " "
     classe = " "
 
@@ -54,15 +56,17 @@ class InfoMetodo():
         self.classe = nome_classe
 
 
-with open("Exemplo.py", "r") as codigo_analisado:
-    arvore = ast.parse(codigo_analisado.read())
-
 metodos_classes = []
-
-
-percorre_arvore(arvore, metodos_classes)
 dup_list = []
 
-separa_duplicatas(metodos_classes, dup_list)
 
-imprime_relatorio(dup_list)
+def main():
+    with open("Exemplo.py", "r") as codigo_analisado:
+        arvore = ast.parse(codigo_analisado.read())
+        percorre_arvore(arvore, metodos_classes)
+        separa_duplicatas(metodos_classes, dup_list)
+        imprime_relatorio(dup_list)
+
+
+if __name__ == '__main__':
+    main()
