@@ -1,4 +1,8 @@
-class Carro():
+class teste:
+    def dormirEmPe(self):
+        pass
+
+class Carro (teste):
     placa = "ABC-1234"
 
     def __init__(self, numero_portas):
@@ -16,7 +20,7 @@ class Carro():
     def __dormir(self):
         pass
 
-class Catioro():
+class Catioro (teste):
 
     def __init__(self, numero_patas):
         self.__numero_patas = numero_patas
@@ -29,22 +33,6 @@ class Catioro():
 
     def __dormir(self):
         pass
-
-
-class Bus():
-
-    def __init__(self, numero_patas):
-        self.__numero_patas = numero_patas
-
-    def latir(self):
-        self.__avancar()
-
-    def __avancar(self):
-        pass
-
-    def __dormir(self):
-        pass
-
 
 def main():
     c1 = Carro(2)

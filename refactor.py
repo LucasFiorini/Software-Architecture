@@ -34,17 +34,20 @@ def percorre_arvore(arvore_gerada, lista_metodos_classes):
             continue
         classe = noh
         if isinstance(classe, ast.ClassDef):
-            for metodos_classe in classe.body:
-                if isinstance(metodos_classe, ast.FunctionDef):
-                    nome_metodo = metodos_classe.name
-                    if nome_metodo[0] == '_' and nome_metodo[1] == '_':
-                        # Ignorando construtor
-                        if nome_metodo != "__init__":
+            if ast.dump(classe).find('bases=[Name(id=') != -1:
+                for metodos_classe in classe.body:
+                    if isinstance(metodos_classe, ast.FunctionDef):
+                        nome_metodo = metodos_classe.name
+                        if nome_metodo[0] == '_' and nome_metodo[1] == '_':
+                            # Ignorando construtor
+                            if nome_metodo != "__init__":
+                                c = InfoMetodo(classe.name, nome_metodo)
+                                lista_metodos_classes.append(c)
+                        else:
                             c = InfoMetodo(classe.name, nome_metodo)
                             lista_metodos_classes.append(c)
-                    else:
-                        c = InfoMetodo(classe.name, nome_metodo)
-                        lista_metodos_classes.append(c)
+            else:
+                continue
 
 
 class InfoMetodo:
