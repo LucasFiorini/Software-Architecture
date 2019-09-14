@@ -33,8 +33,9 @@ class AnalisadorDeArvore():
                 if classe.name == nome:
                     return classe
 
-    # Mapea o nome de cada metodo a uma lista com os nomes das classes que o
-    # possuem.
+    # Mapea o nome de cada metodo a uma lista de objetos do tipo InfoClasse.
+    # Cada objeto desse tipo armazena o noh da classe que possui o método em
+    # questao, assim como o noh da superclasse desta.
     def mapear_metodos(self, arvore):
         for classe in ast.walk(arvore):
             if isinstance(classe, ast.ClassDef):
