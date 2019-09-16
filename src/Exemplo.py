@@ -1,25 +1,31 @@
-class Animal():
+class Animal:
+
     def __init__(self, numero_patas):
         pass
 
 
 class Cachorro(Animal):
+
     def __init__(self, numero_patas):
         pass
 
-    def andar():
+    def cagar():
         pass
 
-    def comer():
+    def comer(self):
+        pass
+
+    def andar(self):
         pass
 
 
 class Gato(Animal):
+
     def __init__(self, numero_patas):
         pass
 
-    def andar():
+    def comer(self):
         pass
 
-    def comer():
+    def andar(self):
         pass

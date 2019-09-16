@@ -15,11 +15,12 @@ class AnalisadorDeArvore():
 
     def imprimir_mapeamento(self):
         for metodo in self.map_metodos:
-            print("O metodo", metodo, "estah repetido nas classes:")
-            for info in a.map_metodos[metodo]:
-                print("   ", info.noh_proprio.name,\
-                "( super ->", info.noh_superclasse.name, ")")
-            print()
+            if len(a.map_metodos[metodo]) > 1:
+                print("O metodo", metodo, "estah repetido nas classes:")
+                for info in a.map_metodos[metodo]:
+                    print("   ", info.noh_proprio.name,\
+                    "( super ->", info.noh_superclasse.name, ")")
+                print()
 
     def capturar_nome_superclasse(self, noh_classe):
         if not noh_classe.bases:
@@ -40,7 +41,8 @@ class AnalisadorDeArvore():
         for classe in ast.walk(arvore):
             if isinstance(classe, ast.ClassDef):
                 nome_superclasse = self.capturar_nome_superclasse(classe)
-                superclasse = self.encontrar_classe_pelo_nome(nome_superclasse)
+                if nome_superclasse != "":
+                    superclasse = self.encontrar_classe_pelo_nome(nome_superclasse)
                 for metodo in classe.body:
                     if isinstance(metodo, ast.FunctionDef):
                         nome_metodo = metodo.name
@@ -54,16 +56,18 @@ class AnalisadorDeArvore():
                                     self.map_metodos[nome_metodo].append(info)
 
     def iniciar_dialogo_para_refatoracao(self):
-        print("Deseja refatorar? (s/n)")
-        op = input()
-        if op == "s":
-            nome_metodo =\
-                input("Digite o nome do metodo que deseja subir para a superclasse: ")
-            nome_superclasse = input("Digite o nome da superclasse destino: ")
-            return nome_metodo, nome_superclasse
-        else:
-            return "", ""
+        nome_metodo =\
+            input("Digite o nome do metodo que deseja subir para a superclasse: ")
+        nome_superclasse = input("Digite o nome da superclasse destino: ")
+        return nome_metodo, nome_superclasse
 
+
+    def nro_refatoracoes(self):
+        contador_refatoracoes = 0
+        for metodo in self.map_metodos:
+            if len(self.map_metodos[metodo]) > 1:
+                contador_refatoracoes += 1
+        return contador_refatoracoes
 
 class Refatorador():
     def injetar_metodo(self, nome_metodo, noh_classe):
@@ -91,23 +95,39 @@ with open(arquivo, "r") as codigo_analisado:
 
 a = AnalisadorDeArvore(arvore)
 a.imprimir_mapeamento()
-nome_metodo, nome_superclasse = a.iniciar_dialogo_para_refatoracao()
 
-if nome_metodo != "" and nome_superclasse != "":
-    ref = Refatorador()
-    metodo_foi_adicionado_na_superclasse = False
+nro_refatoracoes_possiveis  = a.nro_refatoracoes()
 
-    # Tratamento para caso o usuario digite algum nome errado
-    try:
-        for metodo in a.map_metodos:
-            if metodo == nome_metodo:
-                for info_classe in a.map_metodos[metodo]:
-                    superclasse = info_classe.noh_superclasse.name
-                    if superclasse == nome_superclasse:
-                        ref.remover_metodo(nome_metodo, info_classe.noh_proprio)
-                        if not metodo_foi_adicionado_na_superclasse:
-                            ref.injetar_metodo(nome_metodo, info_classe.noh_superclasse)
-                            metodo_foi_adicionado_na_superclasse = True
-        ref.escrever_novo_codigo_no_arquivo(arvore, arquivo)
-    except:
-        print("Algum nome foi digitado errado!")
+ref = False
+if nro_refatoracoes_possiveis > 0:
+    print("Deseja refatorar? (s/n)")
+    op = input()
+    if op == "s":
+        ref = True
+else:
+    print("Nenhum metodo passivel de refatoracao")
+
+if ref:
+    for i in range(nro_refatoracoes_possiveis):
+
+        nome_metodo, nome_superclasse = a.iniciar_dialogo_para_refatoracao()
+
+        if nome_metodo != "" and nome_superclasse != "":
+            ref = Refatorador()
+            metodo_foi_adicionado_na_superclasse = False
+
+            # Tratamento para caso o usuario digite algum nome errado
+            #TODO verificacao nao funcionando
+            try:
+                for metodo in a.map_metodos:
+                    if metodo == nome_metodo:
+                        for info_classe in a.map_metodos[metodo]:
+                            superclasse = info_classe.noh_superclasse.name
+                            if superclasse == nome_superclasse:
+                                ref.remover_metodo(nome_metodo, info_classe.noh_proprio)
+                                if not metodo_foi_adicionado_na_superclasse:
+                                    ref.injetar_metodo(nome_metodo, info_classe.noh_superclasse)
+                                    metodo_foi_adicionado_na_superclasse = True
+                ref.escrever_novo_codigo_no_arquivo(arvore, arquivo)
+            except:
+                print("Algum nome foi digitado errado!")
