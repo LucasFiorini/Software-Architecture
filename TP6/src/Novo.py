@@ -3,7 +3,12 @@ class Interface:
 
     def evento_cadastrar(self):
         nome = input('Digite seu nome: ')
-        Controller.procedimento_0(self, nome)
+        p = Pessoa(nome)
+        self.elementos_graficos.append(p)
+        self.atualizar()
+
+    def evento_cadastrar_novo(self):
+        Controller.procedimento_0(self)
 
     def atualizar(self):
         for elemento in self.elementos_graficos:
@@ -31,10 +36,8 @@ class Robo:
 
 class Controller:
 
-    def procedimento_0(view, nome):
-        p = Pessoa(nome)
-        view.elementos_graficos.append(p)
-        view.atualizar()
+    def procedimento_0(view):
+        objeto = Pessoa()
 
 
 i = Interface()

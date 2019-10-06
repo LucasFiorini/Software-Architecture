@@ -11,11 +11,11 @@ def template_instanciacao(nome_model):
 
 def template_met_controller(pos, nome_model):
     novo_nome_mt = "procedimento_" + str(pos)
-    return ast.FunctionDef(name=novo_nome_mt, args=ast.arguments(args=[], vararg=None, kwonlyargs=[], kw_defaults=[], kwarg=None, defaults=[]),\
+    return ast.FunctionDef(name=novo_nome_mt, args=ast.arguments(args=[ast.arg(arg='view', annotation=None)], vararg=None, kwonlyargs=[], kw_defaults=[], kwarg=None, defaults=[]),\
         body=[template_instanciacao(nome_model)], decorator_list=[], returns=None)
 
 def template_chamada(procedimento_chamado):
-    return ast.Expr(value=ast.Call(func=ast.Attribute(value=ast.Name(id='Controller', ctx=ast.Load()), attr=procedimento_chamado, ctx=ast.Load()), args=[], keywords=[]))
+    return ast.Expr(value=ast.Call(func=ast.Attribute(value=ast.Name(id='Controller', ctx=ast.Load()), attr=procedimento_chamado, ctx=ast.Load()), args=[ast.arg(arg='self', annotation=None)], keywords=[]))
 
 def template_met_view(nome_metodo, id_procedimento):
     novo_nome_mt = nome_metodo + "_novo"
@@ -145,9 +145,12 @@ class GeradorDeFachada:
 
 
 g = GeradorDeFachada("ExemploArq.py")
-print(g.nomes_views)
-print(g.nomes_models)
-print()
-print(g.map_classe_metodos)
-print(g.map_metodo_models)
-print()
+for met in g.map_metodo_models:
+    print("No metodo \""+met+"\", nao deveriam ser instanciados os models:")
+    print("   ", g.map_metodo_models[met])
+    print()
+
+
+
+
+#
