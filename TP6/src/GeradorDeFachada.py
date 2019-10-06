@@ -9,16 +9,16 @@ def template_instanciacao(nome_model):
     nome_model = str(nome_model)
     return ast.Assign(targets=[ast.Name(id='objeto', ctx=ast.Store())], value=ast.Call(func=ast.Name(id=nome_model, ctx=ast.Load()), args=[], keywords=[]))
 
-def template_met_controller(pos, nome_model):
-    novo_nome_mt = "procedimento_" + str(pos)
+def template_met_controller(id_proced):
+    novo_nome_mt = "procedimento_" + str(id_proced)
     return ast.FunctionDef(name=novo_nome_mt, args=ast.arguments(args=[ast.arg(arg='view', annotation=None)], vararg=None, kwonlyargs=[], kw_defaults=[], kwarg=None, defaults=[]),\
-        body=[template_instanciacao(nome_model)], decorator_list=[], returns=None)
+        body=[], decorator_list=[], returns=None)
 
 def template_chamada(procedimento_chamado):
     return ast.Expr(value=ast.Call(func=ast.Attribute(value=ast.Name(id='Controller', ctx=ast.Load()), attr=procedimento_chamado, ctx=ast.Load()), args=[ast.arg(arg='self', annotation=None)], keywords=[]))
 
 def template_met_view(nome_metodo, id_procedimento):
-    novo_nome_mt = nome_metodo + "_novo"
+    novo_nome_mt = nome_metodo + "_SUGERIDO"
     procedimento_chamado = "procedimento_" + str(id_procedimento)
     return ast.FunctionDef(name=novo_nome_mt, args=ast.arguments(args=[ast.arg(arg='self', annotation=None)], vararg=None, kwonlyargs=[], kw_defaults=[], kwarg=None, defaults=[]),\
         body=[template_chamada(procedimento_chamado)], decorator_list=[], returns=None)
@@ -115,10 +115,10 @@ class GeradorDeFachada:
                     for metodo in classe.body:
                         if isinstance(metodo, ast.FunctionDef):
                             if metodo.name in self.map_classe_metodos[nome_cl]:
+                                id_proced = self.adicionar_codigo_view(classe, metodo)
                                 nome_mt = metodo.name
                                 for nome_md in self.map_metodo_models[nome_mt]:
-                                    self.adicionar_codigo_controller(nome_md)
-                                    self.adicionar_codigo_view(classe, metodo)
+                                    self.adicionar_codigo_controller(nome_md, id_proced)
 
     def inicializar_controller(self):
         if not self.controller:
@@ -126,17 +126,19 @@ class GeradorDeFachada:
             self.arvore.body.insert(pos, template_controller())
             self.controller = self.arvore.body[pos]
 
-    def adicionar_codigo_controller(self, nome_model):
-        pos = len(self.controller.body)
-        novo_mt = template_met_controller(pos, nome_model)
-        self.controller.body.insert(pos, novo_mt)
-
     def adicionar_codigo_view(self, classe, metodo):
         pos = classe.body.index(metodo)
         pos += 1
-        id_procedimento = len(self.controller.body) - 1
+        id_procedimento = len(self.controller.body)
         novo_mt = template_met_view(metodo.name, id_procedimento)
         classe.body.insert(pos, novo_mt)
+        novo_mt = template_met_controller(id_procedimento)
+        self.controller.body.insert(id_procedimento, novo_mt)
+        return id_procedimento
+
+    def adicionar_codigo_controller(self, nome_model, id_procedimento):
+        nova_instanciacao = template_instanciacao(nome_model)
+        self.controller.body[id_procedimento].body.append(nova_instanciacao)
 
     def escrever_arquivo_solucao(self):
         novo_codigo = astor.to_source(self.arvore)
@@ -149,8 +151,6 @@ for met in g.map_metodo_models:
     print("No metodo \""+met+"\", nao deveriam ser instanciados os models:")
     print("   ", g.map_metodo_models[met])
     print()
-
-
 
 
 #

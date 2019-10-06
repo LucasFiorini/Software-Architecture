@@ -4,6 +4,7 @@ class Interface:
     def evento_cadastrar(self):
         nome = input("Digite seu nome: ")
         p = Pessoa(nome)
+        r = Robo(nome)
         self.elementos_graficos.append(p)
         self.atualizar()
 
