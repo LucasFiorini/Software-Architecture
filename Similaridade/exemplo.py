@@ -18,6 +18,8 @@ class Teste:
 	def recebe_os_trem(self):
 		nome = input("fala seu nome ai cumpadi")
 		Util.fala_oi()
+		Util.fala_oi()
+		Util.fala_oi()
 		print(nome)
 
 class Util:
