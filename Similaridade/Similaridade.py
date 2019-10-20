@@ -10,6 +10,10 @@ class Similaridade:
     map_classe_metodos = {}
     analisador = None
     lista_info_classes = []
+    a = []
+    b = []
+    c = []
+    d = []
 
     def __init__(self, caminho_arquivo):
         with open(caminho_arquivo, "r") as codigo_analisado:
@@ -48,3 +52,36 @@ class Similaridade:
                 i = InfoClass(classe.name, self.analisador.lista_chamadas)
                 self.lista_info_classes.append(i)
                 self.analisador.limpar_atributos()
+
+    def calcular_a_b_c_d(self, nome_classe_1, nome_classe_2):
+        a = 0
+        b = 0
+        c = 0
+        d = 0
+        chamadas_todas_classes = []
+        chamadas_classe_1 = None
+        chamadas_classe_2 = None
+        for ic in self.lista_info_classes:
+            if ic.name == nome_classe_1:
+                chamadas_classe_1 = []
+                for im in ic.metodos_externos:
+                    chamadas_classe_1.append(im.nome_metodo)
+            elif ic.name == nome_classe_2:
+                chamadas_classe_2 = []
+                for im in ic.metodos_externos:
+                    chamadas_classe_2.append(im.nome_metodo)
+            for met in ic.metodos_externos:
+                if met.nome_metodo not in chamadas_todas_classes:
+                    chamadas_todas_classes.append(met.nome_metodo)
+        if chamadas_classe_1 == None or chamadas_classe_2 == None:
+            return False
+        for met in chamadas_todas_classes:
+            if met in chamadas_classe_1 and met in chamadas_classe_2:
+                a += 1
+            elif met in chamadas_classe_1:
+                b += 1
+            elif met in chamadas_classe_2:
+                c += 1
+            else:
+                d += 1
+        return a, b, c, d
