@@ -39,19 +39,12 @@ class Similaridade:
         return False
 
     # Faz varredeura de todas as classes em uma arvore
-    # Guarda numero de if, try, open etc e constroi um objeto do tipo InfoClass
+    # Constroi objetos do tipo InfoClass
     def explorar_arvore(self):
-        lista_aux = []
         for classe in self.arvore.body:
             if isinstance(classe, ast.ClassDef):
                 self.analisador.visit(classe)
-                self.map_classe_metodos[classe.name] = self.analisador.get_list_metodos()
-                lista_aux.append(self.analisador.qtd_conditional)
-                lista_aux.append(self.analisador.qtd_loop)
-                lista_aux.append(self.analisador.qtd_print)
-                lista_aux.append(self.analisador.qtd_input)
-                lista_aux.append(self.analisador.qtd_open)
-                lista_aux.append(self.analisador.qtd_try)
-                i = InfoClass(classe.name, lista_aux, self.analisador.lista_chamadas)
+                self.map_classe_metodos[classe.name] = self.analisador.lista_metodos
+                i = InfoClass(classe.name, self.analisador.lista_chamadas)
                 self.lista_info_classes.append(i)
-                self.analisador.clear_list()
+                self.analisador.limpar_atributos()

@@ -1,5 +1,5 @@
 class Teste:
-	
+
 	def faz_algo(self):
 		if 1 == 1:
 			print("um é igual a 1 cara")
