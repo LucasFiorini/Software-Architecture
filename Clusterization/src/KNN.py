@@ -48,20 +48,3 @@ class KNN:
                 maior = similaridade
         self.lista_similaridades.pop(pos_maior)
         return pos_maior
-
-#-------------------------------------------------------------------------------
-
-lista_instancias_base = [\
-    {"Nome":"Classe1", "Tipo":"A"},\
-    {"Nome":"Classe2", "Tipo":"A"},\
-    {"Nome":"Classe3", "Tipo":"B"},\
-    {"Nome":"Classe4", "Tipo":"B"},\
-    {"Nome":"Classe5", "Tipo":"A"},\
-]
-
-lista_coeficientes = [0.5, 0.1, 0.7, 1.0, 0.2]
-
-knn = KNN(3, lista_instancias_base, lista_coeficientes)
-print()
-knn = KNN(5, lista_instancias_base, lista_coeficientes)
-print()

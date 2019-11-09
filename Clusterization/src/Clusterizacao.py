@@ -1,5 +1,9 @@
-# Agrupa as classes do meapeamento de acordo com a similaridade entre elas
+# Retorna uma letra de acordo com o numero
+def letra_correspondente(numero):
+    letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    return letras[numero]
 
+# Agrupa as classes do meapeamento de acordo com a similaridade entre elas
 def clusterizar(map_classe_similaridade, similaridade_limitante):
     map_classe_seu_grupo = {}
 
@@ -34,10 +38,12 @@ def clusterizar(map_classe_similaridade, similaridade_limitante):
         if grupo not in lista_grupos:
             lista_grupos.append(grupo)
 
-    # Impressao
+    # Discernimento de cada instancia
+    lista_instancias = []
     for ind_grupo in range(len(lista_grupos)):
-        print(ind_grupo)
-        print("--------------------------------------")
-        for instancia in lista_grupos[ind_grupo]:
-            print(instancia)
-        print("--------------------------------------")
+        grupo = lista_grupos[ind_grupo]
+        for instancia in grupo:
+            instancia["Tipo"] = letra_correspondente(ind_grupo)
+            lista_instancias.append(instancia)
+
+    return lista_instancias
