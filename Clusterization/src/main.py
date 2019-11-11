@@ -14,21 +14,23 @@ def imprimir_lista(lista):
 
 def main():
     s = Similaridade(sys.argv[1])
-    classe_nova = input("Digite o nome da classe nova: ")
+    classe_nova = sys.argv[2]
     map_classe_similaridade, lista_similaridades = calcular_similaridades(s, classe_nova)
-    print()
-    print("Similaridades entre as classes antigas:")
-    imprimir_lista(list(map_classe_similaridade.values()))
-    print()
-    print("Similaridades entre a classe nova e as classes antigas:")
-    print(lista_similaridades)
-    print()
-    lista_instancias = clusterizar(map_classe_similaridade, 0.3)
-    print("Classes antigas clusterizadas:")
-    imprimir_lista(lista_instancias)
-    print()
-    print("Veredito:")
-    knn = KNN(2, lista_instancias, lista_similaridades)
+    if not lista_similaridades:
+        print("Classe nao existente!")
+    else:
+        print("Similaridades entre as classes antigas:")
+        imprimir_lista(list(map_classe_similaridade.values()))
+        print()
+        print("Similaridades entre a classe nova e as classes antigas:")
+        print(lista_similaridades)
+        print()
+        lista_instancias = clusterizar(map_classe_similaridade, float(sys.argv[3]))
+        print("Classes antigas clusterizadas:")
+        imprimir_lista(lista_instancias)
+        print()
+        print("Veredito:")
+        knn = KNN(int(sys.argv[4]), lista_instancias, lista_similaridades)
 
 
 if __name__ == '__main__':

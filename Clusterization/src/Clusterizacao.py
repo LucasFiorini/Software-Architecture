@@ -24,13 +24,13 @@ def clusterizar(map_classe_similaridade, similaridade_limitante):
                 if classe1 != classe2:
                     grupo1 = map_classe_seu_grupo[classe1]
                     grupo2 = map_classe_seu_grupo[classe2]
-                    # Impede o merge entre grupos iguais
-                    if grupo1 != grupo2:
-                        # Merge dos grupos
-                        novo_grupo = grupo1 + grupo2
-                        # Atualizacao das referencias para os grupos
-                        map_classe_seu_grupo[classe1] = novo_grupo
-                        map_classe_seu_grupo[classe2] = novo_grupo
+                    # Construir grupo novo
+                    for elemento in grupo2:
+                        if elemento not in grupo1:
+                            # Merge dos grupos
+                            grupo1.append(elemento)
+                            # Atualizacao da referencia para o grupo
+                            map_classe_seu_grupo[elemento["Nome"]] = grupo1
 
     # Discernimento de cada grupo
     lista_grupos = []
