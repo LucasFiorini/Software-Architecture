@@ -15,7 +15,10 @@ def calcular_similaridades(s, classe_excecao):
                 # print("classe 1: " + classe1 + "Classe 2: " + classe2)
                 a, b, c, d = s.calcular_coeficientes(str(classe1), str(classe2))
                 # print("{} {} {} {}".format(a,b,c,d))
-                lista_indices_jaccard.append(Statistics.Jaccard(a, b, c))
+                try:
+                    lista_indices_jaccard.append(Statistics.Jaccard(a, b, c))
+                except:
+                    lista_indices_jaccard.append(0)
                 # print(lista_indices_jaccard)
         if classe1 != classe_excecao:
             map_classe_similaridade[classe1] = lista_indices_jaccard

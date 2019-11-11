@@ -1,3 +1,5 @@
+################################################################
+################################################################
 class Teste:
 
 	def faz_algo(self):
@@ -23,6 +25,22 @@ class Teste:
 		Util.fala_oi()
 		print(nome)
 
+	class Agua:
+		def priemiro(self):
+			Oi.metodo_1()
+			Oi.metodo_2()
+
+		def segundo(self):
+			Util.fala_oi()
+
+	class Pedra:
+		def terceira(self):
+			Oi.metodo_1()
+			Oi.metodo_2()
+
+		def quarta(self):
+			Util.fala_oi()
+
 class Util:
 
 	def fala_oi(self):
@@ -46,6 +64,15 @@ class Util:
 		except:
 			pass
 
+class DataBase:
+	def con(self):
+		Teste.recebe_os_trem()
+		Teste.printa_os_teste()
+
+	def close_conn(self):
+		Oi.metodo_1()
+################################################################
+################################################################
 
 class Oi:
 
@@ -56,68 +83,4 @@ class Oi:
 		pass
 
 
-class Agua:
-	def priemiro(self):
-		Oi.metodo_1()
-		Oi.metodo_2()
 
-	def segundo(self):
-		Util.fala_oi()
-
-
-class Pedra:
-	def terceira(self):
-		Oi.metodo_1()
-		Oi.metodo_2()
-
-	def quarta(self):
-		Util.fala_oi()
-
-
-
-class DataBase:
-	def con(self):
-		Teste.recebe_os_trem()
-		Teste.printa_os_teste()
-
-	def close_conn(self):
-		Oi.metodo_1()
-
-class read_csv:
-
-	def read(self):
-		Oi.metodo_1()
-		pass
-
-	def write(self):
-		pass
-
-class Find:
-	@staticmethod
-	def encontra_indice(metodo_procurado, lista):
-		i = 0
-		for metodo in lista:
-			if metodo_procurado == metodo.nome_metodo:
-				return i
-		i += 1
-
-	@staticmethod
-	def find(nome_metodo, lista):
-		for elemntos in lista:
-			if elemntos.nome_metodo == nome_metodo:
-				return True
-		return False
-
-
-class List:
-	def find_element(self):
-		Find.encontra_indice()
-		Find.find()
-	def insere(self):
-		pass
-
-class Stack:
-	def find_stack_element(self):
-		Find.find()
-	def insert(self):
-		Find.find()

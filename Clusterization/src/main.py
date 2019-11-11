@@ -6,13 +6,14 @@ from Similaridade import Similaridade
 from CalculoSimilaridades import calcular_similaridades
 from Clusterizacao import clusterizar
 from KNN import KNN
+import sys
 
 def imprimir_lista(lista):
     for elemento in lista:
         print(elemento)
 
 def main():
-    s = Similaridade("exemplo.py")
+    s = Similaridade(sys.argv[1])
     classe_nova = input("Digite o nome da classe nova: ")
     map_classe_similaridade, lista_similaridades = calcular_similaridades(s, classe_nova)
     print()

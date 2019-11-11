@@ -2,6 +2,7 @@ import ast
 
 class Analisador(ast.NodeVisitor):
 
+
     lista_metodos = []
     lista_chamadas = []
 
