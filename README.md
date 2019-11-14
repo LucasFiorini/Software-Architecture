@@ -1,4 +1,4 @@
-# Software Architecture Projects
+#Software Architecture Projects
 ## About this project
 This repository contains the implementation of essays implemented for Software Architecture subject. The ideas and logic behind were developed by ourselves.
 ## System Requirements
