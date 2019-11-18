@@ -5,34 +5,32 @@
 from Similaridade import Similaridade
 from CalculoSimilaridades import calcular_similaridades
 from Clusterizacao import clusterizar
-from KNN import KNN
 import sys
-from View import Grafo
+from View import constroi_grafo
 
 def imprimir_lista(lista):
     for elemento in lista:
         print(elemento)
 
+def gerar_lista_clusters(lista_instancias):
+    map_tipo_p_lista_nomes = {}
+    for instancia in lista_instancias:
+        tipo = instancia["Tipo"]
+        if tipo not in map_tipo_p_lista_nomes.keys():
+            map_tipo_p_lista_nomes[tipo] = [instancia["Nome"]]
+        else:
+            map_tipo_p_lista_nomes[tipo].append(instancia["Nome"])
+    lista_clusters = []
+    for cluster in map_tipo_p_lista_nomes.values():
+        lista_clusters.append(cluster)
+    return lista_clusters
+
 def main():
-    s = Similaridade(sys.argv[1])
-    classe_nova = sys.argv[2]
-    map_classe_similaridade, lista_similaridades = calcular_similaridades(s, classe_nova)
-    if not lista_similaridades:
-        print("Classe nao existente!")
-    else:
-        #print("Similaridades entre as classes antigas:")
-        imprimir_lista(list(map_classe_similaridade.values()))
-        #print()
-        #print("Similaridades entre a classe nova e as classes antigas:")
-        #print(lista_similaridades)
-        #print()
-        lista_instancias = clusterizar(map_classe_similaridade, float(sys.argv[3]))
-        #print("Classes antigas clusterizadas:")
-        #imprimir_lista(lista_instancias)
-        #print()
-        #print("Veredito:")
-        knn = KNN(int(sys.argv[4]), lista_instancias, lista_similaridades)
-        Grafo.constroi_grafo(s.map_classe_classe)
+    s = Similaridade("exemplo.py")
+    map_classe_similaridade = calcular_similaridades(s)
+    lista_instancias = clusterizar(map_classe_similaridade, float(sys.argv[1]))
+    lista_clusters = gerar_lista_clusters(lista_instancias)
+    constroi_grafo(s.map_classe_classe, lista_clusters)
 
 
 if __name__ == '__main__':
