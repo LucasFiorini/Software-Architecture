@@ -1,0 +1,63 @@
+// Arquitetura
+digraph {
+	Teste [label=Teste]
+	Util [label=Util]
+	Oi [label=Oi]
+	Agua [label=Agua]
+	Pedra [label=Pedra]
+	DataBase [label=DataBase]
+	read_csv [label=read_csv]
+	Find [label=Find]
+	List [label=List]
+	Stack [label=Stack]
+	Teste -> Oi
+	Teste -> Util
+	Util -> Teste
+	Util -> Oi
+	Agua -> Oi
+	Agua -> Util
+	Pedra -> Oi
+	Pedra -> Util
+	DataBase -> Teste
+	DataBase -> Oi
+	read_csv -> Oi
+	List -> Find
+	Stack -> Find
+	subgraph cluster_0 {
+		color=red2
+		Teste [label=Teste]
+	}
+	subgraph cluster_1 {
+		color=blue2
+		Util [label=Util]
+	}
+	subgraph cluster_2 {
+		color=green2
+		Oi [label=Oi]
+	}
+	subgraph cluster_3 {
+		color=gold2
+		Agua [label=Agua]
+		Pedra [label=Pedra]
+	}
+	subgraph cluster_4 {
+		color=violetred
+		DataBase [label=DataBase]
+	}
+	subgraph cluster_5 {
+		color=grey20
+		read_csv [label=read_csv]
+	}
+	subgraph cluster_6 {
+		color=mediumpurple
+		Find [label=Find]
+	}
+	subgraph cluster_7 {
+		color=darkorange2
+		List [label=List]
+	}
+	subgraph cluster_8 {
+		color=crimson
+		Stack [label=Stack]
+	}
+}
