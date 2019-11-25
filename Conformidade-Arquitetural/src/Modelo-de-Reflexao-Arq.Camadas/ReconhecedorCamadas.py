@@ -1,31 +1,31 @@
 from Reconhecedor import Reconhecedor
 
 class ReconhecedorCamadas(Reconhecedor):
-    def imprimir_relatorio(self, camadas):
-        if camadas != None:
-            for indice in camadas.keys():
-                print("Camada", indice, "->", camadas[indice])
-        else:
-            print("O sistema nao estah arquitetado em camadas!")
 
     def reconhecer_camadas(self):
         camadas = {}
-        atual = 1
-        abaixo = 2
-        camadas[atual] = self.views
         classes_aparecidas = []
-        while camadas[atual]:
+        lista_violacoes = [] # Lista de tuplas
+        acima = 0
+        corrente = 1
+        abaixo = 2
+        camadas[acima] = []
+        camadas[corrente] = self.views
+        while camadas[corrente]:
             camadas[abaixo] = []
-            for classe in camadas[atual]:
+            for classe in camadas[corrente]:
                 for relacionada in self.map_relacionamentos[classe]:
                     if relacionada in classes_aparecidas:
-                        return None
-                    elif relacionada in camadas[atual] or\
+                        lista_violacoes.append((classe, relacionada))
+                    elif relacionada in camadas[acima] or\
+                            relacionada in camadas[corrente] or\
                             relacionada in camadas[abaixo]:
                         pass
                     else:
                         camadas[abaixo].append(relacionada)
-            classes_aparecidas += camadas[atual]
-            atual = abaixo
+            classes_aparecidas += camadas[acima]
+            acima = corrente
+            corrente = abaixo
             abaixo += 1
-        self.imprimir_relatorio(camadas)
+        self.camadas = camadas
+        self.violacoes = lista_violacoes

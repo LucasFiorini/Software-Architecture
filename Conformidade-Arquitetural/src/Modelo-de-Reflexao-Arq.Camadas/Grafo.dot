@@ -1,63 +1,44 @@
 // Arquitetura
 digraph {
-	Teste [label=Teste]
-	Util [label=Util]
-	Oi [label=Oi]
-	Agua [label=Agua]
-	Pedra [label=Pedra]
-	DataBase [label=DataBase]
-	read_csv [label=read_csv]
-	Find [label=Find]
-	List [label=List]
-	Stack [label=Stack]
-	Teste -> Oi
-	Teste -> Util
-	Util -> Teste
-	Util -> Oi
-	Agua -> Oi
-	Agua -> Util
-	Pedra -> Oi
-	Pedra -> Util
-	DataBase -> Teste
-	DataBase -> Oi
-	read_csv -> Oi
-	List -> Find
-	Stack -> Find
+	V1 [label=V1]
+	V2 [label=V2]
+	A [label=A color=goldenrod3]
+	B [label=B]
+	Qualquer [label=Qualquer color=goldenrod3]
+	X [label=X]
+	C [label=C]
+	V1 -> B
+	V1 -> V2
+	V2 -> X
+	B -> C
+	B -> X
+	B -> V2
+	Qualquer -> B
+	X -> C
+	C -> V2 [color=crimson]
 	subgraph cluster_0 {
-		color=red2
-		Teste [label=Teste]
+		color=grey20
+		label=0
 	}
 	subgraph cluster_1 {
-		color=blue2
-		Util [label=Util]
+		color=grey20
+		label=1
+		V1 [label=V1]
+		V2 [label=V2]
 	}
 	subgraph cluster_2 {
-		color=green2
-		Oi [label=Oi]
+		color=grey20
+		label=2
+		B [label=B]
+		X [label=X]
 	}
 	subgraph cluster_3 {
-		color=gold2
-		Agua [label=Agua]
-		Pedra [label=Pedra]
+		color=grey20
+		label=3
+		C [label=C]
 	}
 	subgraph cluster_4 {
-		color=violetred
-		DataBase [label=DataBase]
-	}
-	subgraph cluster_5 {
 		color=grey20
-		read_csv [label=read_csv]
-	}
-	subgraph cluster_6 {
-		color=mediumpurple
-		Find [label=Find]
-	}
-	subgraph cluster_7 {
-		color=darkorange2
-		List [label=List]
-	}
-	subgraph cluster_8 {
-		color=crimson
-		Stack [label=Stack]
+		label=4
 	}
 }
