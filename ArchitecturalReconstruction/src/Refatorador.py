@@ -21,7 +21,9 @@ class Refatorador():
                             if metodo.name == nome_metodo:
                                 self.metodo_deslocado = metodo
                                 classe.body.remove(metodo)
-                                ast.dump(self.metodo_deslocado)
+                                # Nao deixa a classe vazia
+                                if classe.body == []:
+                                    classe.body.append(ast.Pass)
 
     def escrever_novo_codigo_no_arquivo(self, caminho_arquivo):
         novo_codigo = astor.to_source(self.arvore)
