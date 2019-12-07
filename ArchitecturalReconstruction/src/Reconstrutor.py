@@ -13,7 +13,6 @@ class Reconstrutor:
             arvore = ast.parse(codigo_analisado.read())
         self.analisador = Analisador()
         self.mapear_metodos(arvore)
-        self.encontrar_uso_util()
 
     def mapear_metodos(self, arvore):
         encontrou_util = False
@@ -39,5 +38,5 @@ class Reconstrutor:
                      lista_utlizadores_util.append(chamadas)
             if (len(lista_utlizadores_util) == 1):
                 print("O Método " + metodo + " pode ser movido para a classe: " + lista_utlizadores_util[0])
-                map_move_method[lista_utlizadores_util[0] = metodo
+                map_move_method[lista_utlizadores_util[0]] = metodo
         return map_move_method
